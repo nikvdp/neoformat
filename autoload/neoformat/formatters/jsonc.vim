@@ -1,35 +1,28 @@
 function! neoformat#formatters#jsonc#enabled() abort
-    return ['jsbeautify', 'prettydiff', 'prettier', 'jq', 'fixjson']
-endfunction
-
-function! neoformat#formatters#jsonc#jsbeautify() abort
-    return neoformat#formatters#javascript#jsbeautify()
-endfunction
-
-function! neoformat#formatters#jsonc#prettydiff() abort
-    return neoformat#formatters#javascript#prettydiff()
-endfunction
-
-function! neoformat#formatters#jsonc#jq() abort
-    return {
-            \ 'exe': 'jq',
-            \ 'args': ['.'],
-            \ }
+    return ['prettierd', 'prettier', 'denofmt']
 endfunction
 
 function! neoformat#formatters#jsonc#prettier() abort
     return {
         \ 'exe': 'prettier',
-        \ 'args': ['--stdin-filepath', '"%:p"', '--parser', 'json'],
+        \ 'args': ['--stdin-filepath', '"%:p"'],
+        \ 'stdin': 1,
+        \ 'try_node_exe': 1,
+        \ }
+endfunction
+
+function! neoformat#formatters#jsonc#prettierd() abort
+    return {
+        \ 'exe': 'prettierd',
+        \ 'args': ['"%:p"'],
         \ 'stdin': 1,
         \ }
 endfunction
 
-function! neoformat#formatters#jsonc#fixjson() abort
-    let l:filename = fnamemodify(bufname('%'), ':t')
+function! neoformat#formatters#jsonc#denofmt() abort
     return {
-        \ 'exe': 'fixjson',
-        \ 'args': ['--stdin-filename', l:filename],
+        \ 'exe': 'deno',
+        \ 'args': ['fmt','-'],
         \ 'stdin': 1,
         \ }
 endfunction
